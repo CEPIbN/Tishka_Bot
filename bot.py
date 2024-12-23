@@ -1,30 +1,33 @@
 import discord
 from discord.ext import commands
 
-TOKEN = 'MTMyMDY1MDk0NDc2OTI5ODQ3Mg.Gzjufo.d4CIc4inUrATBJQbw29uH3JfESIJ_f0UCMv7Fw'
+TOKEN = 'MTMyMDgwMTgxMzA5NTY0NTI0NA.GCwlxp.lxWclBNYgBAhqJPH8cvLX-9KN0kWegNINWFhL0'
+PREFIX = '/'
+intents = discord.Intents().all()
+ROLE_ID = 1320807509635895378
 
-intents = discord.Intents.default()
-intents.messages = True
-
-bot = commands.Bot(command_prefix='/', intents=intents)
-
-
-@bot.event
-async def on_ready():
-    print(f'Бот {bot.user} запущен и готов к работе!')
+bot = commands.Bot(command_prefix=PREFIX, intents=intents)
 
 
 @bot.command()
 async def hello(ctx):
-    await ctx.send('Привет! Я ваш Discord бот.')
+    await ctx.reply("hello")
+    await ctx.send('hello2 ')
 
 
 @bot.event
 async def on_member_join(member):
-    role = await discord.utils.get(guild_id=member.guild.id, role_id = 1320580912978726923)
+    guild = member.quild
+    role = guild.get_role(ROLE_ID)
 
-    await member.add_roles(role)
-
+    if role:
+        try:
+            await member.add_roles(role)
+            print(f'Выдана роль {role.name} пользователю {member.name}')
+        except discord.Forbidden:
+            print(f'Недостаточно прав для выдачи роли {role.name}')
+        except discord.HTTPException:
+            print(f'Не удалось выдать роль {role.name} пользователю {member.name}')
 
 
 bot.run(TOKEN)
