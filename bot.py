@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 from config import settings
-import youtube_dl
+import yt_dlp
 
 # Создаем переменные, значение которых находится в файле конфига.
 TOKEN = settings['TOKEN']
@@ -24,7 +24,7 @@ ffmpeg_options = {
     'options': '-vn',
 }
 
-ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
+ytdl = yt_dlp.YoutubeDL(ytdl_format_options)
 
 # Создаем права боту
 intents = discord.Intents().all()
